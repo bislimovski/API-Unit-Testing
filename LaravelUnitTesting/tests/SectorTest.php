@@ -71,6 +71,7 @@ class SectorTest extends TestCase
 
         $get = $this->call('PUT', $this->url($createSector->id), $createSector->toArray());
         $this->assertEquals(202, $get->status());
+        $this->seeInDatabase($createSector->getTable(), $createSector->toArray());
     }
 
     /** @test */
@@ -96,7 +97,7 @@ class SectorTest extends TestCase
 
         $this->post($this->url(), $createSectorArray);
         $this->assertResponseStatus(422);
-        $this->seeInDatabase($createSector->getTable(), $createSectorArray);
+        $this->notSeeInDatabase($createSector->getTable(), $createSectorArray);
     }
 
     /** @test */
@@ -107,7 +108,6 @@ class SectorTest extends TestCase
 
         $this->put($this->url($createSector['id']), $createSector);
         $this->assertResponseStatus(422);
-//        $this->seeInDatabase($createSector->getTable(), $createSector);
     }
 
     /** @test */
